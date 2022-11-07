@@ -7,6 +7,7 @@
   <style>
 
     div {
+      float: left;
       box-sizing: border-box;
     }
 
@@ -20,7 +21,8 @@
       border: 1px solid black;
       width: 12vw;
       height: 12vw;
-      display: none;
+      /*Aufgabenstellung*/
+      /*display: none;*/
     }
 
     .board .field:first-child {
@@ -47,9 +49,8 @@
 <body>
 
   <div class="board">
-
+    <!--<div class="field"><div class="blue piece"></div></div>
     <div class="field"><div class="blue piece"></div></div>
-    <div class="field"></div>
     <div class="field"></div>
     <div class="field"></div>
     <div class="field"></div>
@@ -60,8 +61,33 @@
     <div class="field"></div>
     <div class="field"></div>
     <div class="field"></div>
-
+    <div class="field"></div>
+    <div class="field"></div>-->
   </div>
+
+  <div class="field"><div class="blue piece"></div></div>
+
+
+  <script>
+    function elt(type, attrs, ...children) {
+      let node = document.createElement(type)
+      for (a in attrs) {
+        node.setAttribute(a, attrs[a])
+      }
+      for (let child of children) {
+        if (typeof child != "string") {
+          node.appendChild(child)
+        } else {
+          node.appendChild(document.createTextNode(child))
+        }
+      }
+      return node
+    }
+
+    document.getElementById("board").appendChild(
+            elt("field:first-child")
+    )
+  </script>
 
 </body>
 </html>
