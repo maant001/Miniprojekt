@@ -25,9 +25,6 @@
       /*display: none;*/
     }
 
-    .board .field:first-child {
-      display: block;
-    }
 
     .board .field .piece {
       width: 10vw;
@@ -41,34 +38,12 @@
     .board .field .red {
       background-color: red;
     }
-
   </style>
-
 
 </head>
 <body>
-
-  <div class="board">
-    <!--<div class="field"><div class="blue piece"></div></div>
-    <div class="field"><div class="blue piece"></div></div>
-    <div class="field"></div>
-    <div class="field"></div>
-    <div class="field"></div>
-    <div class="field"></div>
-    <div class="field"><div class="red piece"></div></div>
-    <div class="field"></div>
-    <div class="field"></div>
-    <div class="field"></div>
-    <div class="field"></div>
-    <div class="field"></div>
-    <div class="field"></div>
-    <div class="field"></div>-->
-  </div>
-
-  <div class="field"><div class="blue piece"></div></div>
-
-
   <script>
+
     function elt(type, attrs, ...children) {
       let node = document.createElement(type)
       for (a in attrs) {
@@ -84,10 +59,35 @@
       return node
     }
 
-    document.getElementById("board").appendChild(
-            elt("field:first-child")
-    )
-  </script>
+    function showBoard() {
+        const board = elt("div", {class: "board"})
 
+        for (let row = 0; row < 6; row++) {
+            const row = elt("div", {class: "row"})
+                for (let col = 0; col < 7; col++) {
+                    const field = elt("div", {class: "field"})
+
+
+
+
+
+
+                    if (Math.random() < 0.5) {
+                    field.classList.add("piece")
+                        if (Math.random() < 0.5) {
+                            field.classList.add("red")
+                        } else {
+                            field.classList.add("blue")
+                        }
+                    }
+                    row.appendChild(field)
+                }
+                board.appendChild(row)
+            }
+        document.body.appendChild(board)
+    }
+
+    showBoard()
+  </script>
 </body>
 </html>
