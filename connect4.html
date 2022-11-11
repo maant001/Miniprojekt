@@ -1,62 +1,64 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Vier gewinnt</title>
+    <meta charset="UTF-8">
+    <title>Vier gewinnt</title>
 
-  <style>
+    <style>
 
-    div {
-      float: left;
-      box-sizing: border-box;
-    }
+        div {
+            float: left;
+            box-sizing: border-box;
+        }
 
-    .board {
-      width: 84vw;
-      margin: auto;
-      outline: 1px solid black;
-   }
+        .board {
+            width: 84vw;
+            margin: auto;
+            outline: 1px solid black;
+        }
 
-    .board .field {
-      border: 1px solid black;
-      width: 12vw;
-      height: 12vw;
-      /*Aufgabenstellung*/
-      /*display: none;*/
-    }
+        .field {
+            border: 1px solid black;
+            width: 12vw;
+            height: 12vw;
+            /*Aufgabenstellung*/
+            /*display: none;*/
+        }
 
 
-    .board .field .piece {
-      width: 10vw;
-      height: 10vw;
-      border-radius: 50%;
-      margin: 1vw;
-    }
-    .board .field .blue {
-      background-color: blue;
-    }
-    .board .field .red {
-      background-color: red;
-    }
-  </style>
+        .piece {
+            width: 10vw;
+            height: 10vw;
+            border-radius: 50%;
+            margin: 1vw;
+        }
+
+        .blue {
+            background-color: blue;
+        }
+
+        .red {
+            background-color: red;
+        }
+    </style>
 
 </head>
 <body>
-  <script>
+<script>
 
     function elt(type, attrs, ...children) {
-      let node = document.createElement(type)
-      for (a in attrs) {
-        node.setAttribute(a, attrs[a])
-      }
-      for (let child of children) {
-        if (typeof child != "string") {
-          node.appendChild(child)
-        } else {
-          node.appendChild(document.createTextNode(child))
+        let node = document.createElement(type)
+        for (a in attrs) {
+            node.setAttribute(a, attrs[a])
         }
-      }
-      return node
+        for (let child of children) {
+            if (typeof child != "string") {
+                node.appendChild(child)
+            } else {
+                node.appendChild(document.createTextNode(child))
+            }
+        }
+        return node
     }
 
     function showBoard() {
@@ -64,30 +66,26 @@
 
         for (let row = 0; row < 6; row++) {
             const row = elt("div", {class: "row"})
-                for (let col = 0; col < 7; col++) {
-                    const field = elt("div", {class: "field"})
+            for (let col = 0; col < 7; col++) {
+                const field = elt("div", {class: "field"})
 
-
-
-
-
+                if (Math.random() < 0.2) {
+                    field.classList.add("piece")
 
                     if (Math.random() < 0.5) {
-                    field.classList.add("piece")
-                        if (Math.random() < 0.5) {
-                            field.classList.add("red")
-                        } else {
-                            field.classList.add("blue")
-                        }
+                        field.classList.add("blue")
+                    } else {
+                        field.classList.add("red")
                     }
-                    row.appendChild(field)
                 }
-                board.appendChild(row)
+                row.appendChild(field)
             }
+            board.appendChild(row)
+        }
         document.body.appendChild(board)
     }
-
+    
     showBoard()
-  </script>
+</script>
 </body>
 </html>
