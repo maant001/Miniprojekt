@@ -47,9 +47,28 @@ function timerRandomizer() {
 function createEmptyBoard() {
     let state = Array(6).fill('').map(el => Array(7).fill(''))
     /*document.body.appendChild(state)*/
+    randomizeField(state)
     console.log(state)
 }
 
+/* TODO 2*/
+function randomizeField(currentBoard) {
+    for (let row in currentBoard) {
+        for (let field in row) {
+            if (Math.random() < 0.5) {
+                if (Math.random() < 0.5) {
+                    currentBoard[row][field] = "b"
+                } else {
+                    currentBoard[row][field] = "r"
+                }
+            }
+        }
+    }
+}
 
+
+/* TODO 2 testing purposes here*/
 createEmptyBoard()
 showBoard()
+document.getElementsByClassName("board")[0].appendChild(elt("div", {id: "container"}, "gaki"))
+console.log("test")
