@@ -38,4 +38,18 @@ function showBoard() {
     document.body.appendChild(board)
 }
 
+/* TODO 2 Timer*/
+function timerRandomizer() {
+
+}
+
+/* TODO 2 Create EmptyBoard, this gives state of board!*/
+function createEmptyBoard() {
+    let state = Array(6).fill('').map(el => Array(7).fill(''))
+    /*document.body.appendChild(state)*/
+    console.log(state)
+}
+
+
+createEmptyBoard()
 showBoard()
