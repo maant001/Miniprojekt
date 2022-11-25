@@ -1,4 +1,4 @@
-/* TODO Aufgabe 2*/
+
 function elt(type, attrs, ...children) {
     let node = document.createElement(type)
     for (a in attrs) {
