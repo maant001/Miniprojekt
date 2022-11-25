@@ -40,20 +40,16 @@ function showBoard() {
     document.body.appendChild(board)
 }
 
-/* TODO 2 Timer*/
-// function timerRandomizer() {
-//
-// }
 
-/* TODO 2 Create EmptyBoard, this gives state of board!*/
+/* TODO 2 Create EmptyBoard*/
 function createEmptyBoard() {
      let state = Array(6).fill('').map(el => Array(7).fill(''))
      /*document.body.appendChild(state)*/
-     randomizeField(state)
+     // randomizeField(state)
      console.log(state)
  }
 
-/* TODO 2*/
+/* TODO is this necessary?*/
  function randomizeField(currentBoard) {
      for (let row in currentBoard) {
          for (let field in row) {
@@ -69,7 +65,7 @@ function createEmptyBoard() {
  }
 
 
-/* TODO 2 calling the functions, testing purposes here*/
+/*calling the functions, testing purposes here*/
 createEmptyBoard()
 showBoard()
 document.getElementsByClassName("board")[0].appendChild(elt("div", {id: "container"}, currentPlayer + " now playing"))
