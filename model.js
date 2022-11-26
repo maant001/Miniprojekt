@@ -2,10 +2,11 @@
 let rows = 6
 let columns = 7
 let state = {
-
+    board: [],
+    currentPlayer: ""
 }
-let currentPlayer = "red"
-let board
+//let currentPlayer = undefined
+let board = undefined
 
 
 //functions
@@ -24,49 +25,92 @@ function elt(type, attrs, ...children) {
     return node
 }
 
-// TODO
 function showBoard() {
-    const board = elt("div", {class: "board"})
+    const rows = state.board.map((row, i) => {
+        const fields = row.map((field, j) => {
+            const fieldElement = elt("div", {"class": "field", "data-row": i, "data-col": j})
+            if (field !== "" && "rb".includes(field)) {
+                let colorClass;
+                if (field === "r") {
+                    colorClass = "red";
+                } else {
+                    colorClass = "blue";
+                }
+                const piece = elt("div", {class: colorClass + " piece", style: "z-index:-1"})
+                fieldElement.appendChild(piece)
+            }
+            return fieldElement
+        })
+        return elt("div", {class: "row"}, ...fields)
+    })
+    board.innerHTML = ""
+    board.append(...rows)
+}
 
-    for (let row = 0; row < 6; row++) {
-        const row = elt("div", {class: "row"})
-        for (let col = 0; col < 7; col++) {
-            const field = elt("div", {class: "field"})
-
-            row.appendChild(field)
-        }
-        board.appendChild(row)
-    }
-    document.body.appendChild(board)
+function createEmptyBoard() {
+     for (const el of Array(rows).fill('')) {
+         state.board.push(Array(columns).fill(''));
+     }
+     if (Math.random() < 0.5) {
+        state.currentPlayer = "red"
+     } else {
+        state.currentPlayer = "blue"
+     }
+     console.log(state)
 }
 
 
-/* TODO 2 Create EmptyBoard*/
-function createEmptyBoard() {
-     let state = Array(6).fill('').map(el => Array(7).fill(''))
-     /*document.body.appendChild(state)*/
-     // randomizeField(state)
-     console.log(state)
- }
-
-/* TODO is this necessary?*/
- function randomizeField(currentBoard) {
-     for (let row in currentBoard) {
-         for (let field in row) {
-             if (Math.random() < 0.5) {
-                 if (Math.random() < 0.5) {
-                     currentBoard[row][field] = "b"
-                 } else {
-                     currentBoard[row][field] = "r"
-                 }
-             }
-         }
-     }
- }
+// TODO seems faulty
+function showCurrentPlayer() {
+    document.getElementsByClassName("board")[0].replaceChild(elt("div", {id: "container"}, state.currentPlayer + " now playing! "), document.getElementsByClassName("board")[0].lastChild)
+}
 
 
-/*calling the functions, testing purposes here*/
-createEmptyBoard()
-showBoard()
-document.getElementsByClassName("board")[0].appendChild(elt("div", {id: "container"}, currentPlayer + " now playing"))
-console.log("test")
+// TODO change
+function actionOnClick(row, col) {
+    if (state.board[row][col] !== "") {
+        return;
+    }
+    for (let i = state.board.length - 1; i >= 0; i--) {
+        if (state.board[i][col] === "") {
+            state.board[i][col] = state.currentPlayer[0];
+            break;
+        }
+    }
+    changePlayer()
+    showCurrentPlayer();
+    showBoard();
+}
+
+function changePlayer() {
+    if (state.currentPlayer === "blue") {
+        state.currentPlayer = "red"
+    } else {
+        state.currentPlayer = "blue"
+    }
+}
+
+function startGame() {
+    board = document.getElementsByClassName("board")[0]
+    createEmptyBoard()
+    showBoard()
+    showCurrentPlayer()
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    startGame()
+    document.body.addEventListener("click", () => {
+        if ("field,piece".includes(event.target.classList)) {
+            const row = event.target.dataset.row
+            const col = event.target.dataset.col
+            actionOnClick(row, col)
+        }
+    });
+
+    document.getElementById("newGameButton").addEventListener("click", () => {
+        createEmptyBoard()
+        showBoard()
+        showCurrentPlayer()
+    })
+
+})
