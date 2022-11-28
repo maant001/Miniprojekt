@@ -5,8 +5,8 @@ let state = {
     board: [],
     currentPlayer: ""
 }
-//let currentPlayer = undefined
-let board = undefined
+
+//let board = undefined
 
 
 //functions
@@ -59,12 +59,9 @@ function createEmptyBoard() {
      console.log(state)
 }
 
-
-// TODO seems faulty
 function showCurrentPlayer() {
-    document.getElementsByClassName("board")[0].replaceChild(elt("div", {id: "container"}, state.currentPlayer + " now playing! "), document.getElementsByClassName("board")[0].lastChild)
+    document.getElementById("currentPlayer").innerHTML = state.currentPlayer;
 }
-
 
 // TODO change
 function actionOnClick(row, col) {
@@ -88,6 +85,8 @@ function changePlayer() {
     } else {
         state.currentPlayer = "blue"
     }
+    showCurrentPlayer()
+
 }
 
 function startGame() {
