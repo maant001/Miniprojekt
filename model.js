@@ -6,7 +6,7 @@ let state = {
     currentPlayer: ""
 }
 
-//let board = undefined
+let board = undefined
 
 
 //functions
@@ -43,8 +43,14 @@ function showBoard() {
         })
         return elt("div", {class: "row"}, ...fields)
     })
+
+    // TODO mistake happens here i think
+    //board.delete(...rows)
+
     board.innerHTML = ""
     board.append(...rows)
+
+    //board.set(...rows)
 }
 
 function createEmptyBoard() {
@@ -105,11 +111,4 @@ window.addEventListener('DOMContentLoaded', () => {
             actionOnClick(row, col)
         }
     });
-
-    document.getElementById("newGameButton").addEventListener("click", () => {
-        createEmptyBoard()
-        showBoard()
-        showCurrentPlayer()
-    })
-
 })
