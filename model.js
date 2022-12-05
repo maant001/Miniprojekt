@@ -8,7 +8,6 @@ let state = {
 
 let board = undefined
 
-
 //functions
 function elt(type, attrs, ...children) {
     let node = document.createElement(type)
@@ -102,6 +101,7 @@ function startGame() {
     showCurrentPlayer()
 }
 
+// TODO document or window?
 window.addEventListener('DOMContentLoaded', () => {
     startGame()
     document.body.addEventListener("click", () => {
@@ -109,6 +109,114 @@ window.addEventListener('DOMContentLoaded', () => {
             const row = event.target.dataset.row
             const col = event.target.dataset.col
             actionOnClick(row, col)
+
+            let playerToCheck
+            if (state.currentPlayer[0] === 'r') {
+                playerToCheck = "blue"
+            } else {
+                playerToCheck = "red"
+            }
+
+            if (connect4Winner(playerToCheck[0], state.board)) {
+                alert(playerToCheck + " WON :)")
+                window.location.reload()
+            }
         }
-    });
+    })
 })
+
+function connect4Winner(playerToCheck, testBoard) {
+    let bool = false
+    if (!checkHorizontal(playerToCheck, testBoard)) {
+        if (!checkVertical(playerToCheck, testBoard)) {
+            if (!checkDiagonalRight(playerToCheck, testBoard)) {
+                if (!checkDiagonalLeft(playerToCheck, testBoard)) {
+                    bool = false
+                } else {
+                    bool = true
+                }
+            } else {
+                bool = true
+            }
+        } else {
+            bool = true
+        }
+    } else {
+        bool = true
+    }
+
+    return bool
+}
+
+
+// checks from left to right
+function checkHorizontal(player, board) {
+    for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
+        for (let columnIndex = 0; columnIndex < board[rowIndex].length - 3; columnIndex++) {
+            if (board[rowIndex][columnIndex] === player) {
+                if (board[rowIndex][columnIndex + 1] === player) {
+                    if (board[rowIndex][columnIndex + 2] === player) {
+                        if (board[rowIndex][columnIndex + 3] === player) {
+                            return true
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false
+}
+
+// check from up to down
+function checkVertical(player, board) {
+    for (let rowIndex = 0; rowIndex < board.length - 3; rowIndex++) {
+        for (let columnIndex = 0; columnIndex < board[rowIndex].length; columnIndex++) {
+            if (board[rowIndex][columnIndex] === player) {
+                if (board[rowIndex + 1][columnIndex] === player) {
+                    if (board[rowIndex + 2][columnIndex] === player) {
+                        if (board[rowIndex + 3][columnIndex] === player) {
+                            return true
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false
+}
+
+// checks diagonal right
+function checkDiagonalRight(player, board) {
+    for (let rowIndex = 0; rowIndex < board.length - 3; rowIndex++) {
+        for (let columnIndex = 0; columnIndex < board[rowIndex].length - 3; columnIndex++) {
+            if (board[rowIndex][columnIndex] === player) {
+                if (board[rowIndex + 1][columnIndex + 1] === player) {
+                    if (board[rowIndex + 2][columnIndex + 2] === player) {
+                        if (board[rowIndex + 3][columnIndex + 3] === player) {
+                            return true
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false
+}
+
+// check diagonal left
+function checkDiagonalLeft(player, board) {
+    for (let rowIndex = 0; rowIndex < board.length - 3; rowIndex++) {
+        for (let columnIndex = 3; columnIndex < board[rowIndex].length; columnIndex++) {
+            if (board[rowIndex][columnIndex] === player) {
+                if (board[rowIndex + 1][columnIndex - 1] === player) {
+                    if (board[rowIndex + 2][columnIndex - 2] === player) {
+                        if (board[rowIndex + 3][columnIndex - 3] === player) {
+                            return true
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false
+}
