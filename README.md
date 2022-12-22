@@ -1,7 +1,7 @@
 # Miniprojekt 4 Gewinnt
 
 **STUDENTS:**
-maant001
+- maant001
 
 **DESCRIPTION**
 - attempt in creating a version of Connect Four
@@ -25,7 +25,9 @@ maant001
 ---
 
 **Current state 22.12.22**
+
 **DONE:**
+
 WBE P8
 - Vier Gewinnt (done)
 - Trennung Model/View (done)
@@ -42,6 +44,7 @@ WBE P13
 ---
 
 **NOT DONE:**
+
 WBE P10
 - Spielzustand auf dem Server
 
