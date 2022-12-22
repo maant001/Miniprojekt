@@ -25,5 +25,3 @@ WBE P11
 WBE P12
 - Spielfeld aus Komponenten
 - Undo-Funktion
-
-WBE
