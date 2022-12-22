@@ -1,129 +1,5 @@
-// variables
-let rows = 6
-let columns = 7
-let state = {
-    board: [],
-    currentPlayer: ""
-}
-
-let board = undefined
-
-//functions
-function elt(type, attrs, ...children) {
-    let node = document.createElement(type)
-    for (a in attrs) {
-        node.setAttribute(a, attrs[a])
-    }
-    for (let child of children) {
-        if (typeof child != "string") {
-            node.appendChild(child)
-        } else {
-            node.appendChild(document.createTextNode(child))
-        }
-    }
-    return node
-}
-
-function showBoard() {
-    const rows = state.board.map((row, i) => {
-        const fields = row.map((field, j) => {
-            const fieldElement = elt("div", {"class": "field", "data-row": i, "data-col": j})
-            if (field !== "" && "rb".includes(field)) {
-                let colorClass;
-                if (field === "r") {
-                    colorClass = "red";
-                } else {
-                    colorClass = "blue";
-                }
-                const piece = elt("div", {class: colorClass + " piece", style: "z-index:-1"})
-                fieldElement.appendChild(piece)
-            }
-            return fieldElement
-        })
-        return elt("div", {class: "row"}, ...fields)
-    })
-
-    // TODO mistake happens here i think
-    //board.delete(...rows)
-
-    board.innerHTML = ""
-    board.append(...rows)
-
-    //board.set(...rows)
-}
-
-function createEmptyBoard() {
-     for (const el of Array(rows).fill('')) {
-         state.board.push(Array(columns).fill(''));
-     }
-     if (Math.random() < 0.5) {
-        state.currentPlayer = "red"
-     } else {
-        state.currentPlayer = "blue"
-     }
-     console.log(state)
-}
-
-function showCurrentPlayer() {
-    document.getElementById("currentPlayer").innerHTML = state.currentPlayer;
-}
-
-// TODO change
-function actionOnClick(row, col) {
-    if (state.board[row][col] !== "") {
-        return;
-    }
-    for (let i = state.board.length - 1; i >= 0; i--) {
-        if (state.board[i][col] === "") {
-            state.board[i][col] = state.currentPlayer[0];
-            break;
-        }
-    }
-    changePlayer()
-    showCurrentPlayer();
-    showBoard();
-}
-
-function changePlayer() {
-    if (state.currentPlayer === "blue") {
-        state.currentPlayer = "red"
-    } else {
-        state.currentPlayer = "blue"
-    }
-    showCurrentPlayer()
-
-}
-
-function startGame() {
-    board = document.getElementsByClassName("board")[0]
-    createEmptyBoard()
-    showBoard()
-    showCurrentPlayer()
-}
-
-// TODO document or window?
-window.addEventListener('DOMContentLoaded', () => {
-    startGame()
-    document.body.addEventListener("click", () => {
-        if ("field,piece".includes(event.target.classList)) {
-            const row = event.target.dataset.row
-            const col = event.target.dataset.col
-            actionOnClick(row, col)
-
-            let playerToCheck
-            if (state.currentPlayer[0] === 'r') {
-                playerToCheck = "blue"
-            } else {
-                playerToCheck = "red"
-            }
-
-            if (connect4Winner(playerToCheck[0], state.board)) {
-                alert(playerToCheck + " WON :)")
-                window.location.reload()
-            }
-        }
-    })
-})
+// WBE P 10
+// A2
 
 function connect4Winner(playerToCheck, testBoard) {
     let bool = false
@@ -220,3 +96,17 @@ function checkDiagonalLeft(player, board) {
     }
     return false
 }
+
+let testBoard = [
+    ['_', '_', '_', '_', '_', '_', '_'],
+    ['_', '_', '_', '_', '_', '_', '_'],
+    ['_', '_', '_', '_', 'r', '_', '_'],
+    ['_', '_', '_', 'r', 'r', 'b', 'b'],
+    ['_', '_', 'r', 'b', 'r', 'r', 'b'],
+    ['b', 'b', 'b', 'r', 'r', 'b', 'b']
+]
+
+//console.log(connect4Winner('r', testBoard)) // true, da 4 x 'r' in einer Reihe
+//console.log(connect4Winner('b', testBoard)) // false
+
+//module.exports = { connect4Winner }
